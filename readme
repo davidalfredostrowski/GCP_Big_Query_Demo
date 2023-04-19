@@ -1,0 +1,41 @@
+<create / allocate project and billing>
+<open cloud shell terminal>
+gcloud projects list
+gcloud config set project <project_name>-<projectNumber>
+<I removed past project>
+rm -r data-science-on-gcp/
+git clone https://github.com/GoogleCloudPlatform/data-science-on-gcp
+cd data-science-on-gcp/02_ingest/
+mkdir data
+cp download.sh  data
+cd data
+<remember to run bash script loop with forward quotes ``>
+for MONTH in `seq 1 12`; do bash download.sh 2015 $MONTH; done
+
+<or just load one data file>
+bash download.sh 2015 1
+
+python demo.py
+<create and name a bucket>
+gsutil -m cp *.csv gs://alfrednewbucket
+
+
+gsutil -m cp 201501short.csv    gs://bqbuckettesttwo
+<create a dataset>
+bq mk dsongcpal
+bq load --autodetect --source_format=CSV maydata.flight_auto gs://bqbuckettesttwo/201501short.csv
+<enter big query and investigate>
+
+gsutil -m cp *.csv gs://alsgcptestbucket
+
+
+
+contents of demo.py
+
+
+f = open("201501.bck").readlines()
+fout = open("201501.csv","w")
+for i in range(5000):
+    fout.write(f[i])
+
+
